@@ -1,5 +1,7 @@
 package com.ankit.socialProfileFetcher.processor;
 
+import com.ankit.socialProfileFetcher.appender.ProfileAppender;
+import com.ankit.socialProfileFetcher.appender.SocialProfileAppender;
 import com.ankit.socialProfileFetcher.model.SocialProfiles;
 import com.ankit.socialProfileFetcher.model.holder.SocialProfilesHolder;
 import com.ankit.socialProfileFetcher.scrapper.Scrapper;
@@ -9,6 +11,8 @@ public class SocialProfileFetcherProcessor implements ProfileFetcherProcessor<So
 
     private static Scrapper<SocialProfilesHolder> scrapper = SocialProfileScrapper.getScrapper();
     private static ProfileFetcherProcessor<SocialProfiles> processor = new SocialProfileFetcherProcessor();
+    private static ProfileAppender<SocialProfiles> socialProfilesProfileAppender = SocialProfileAppender
+            .getSocialProfilesProfileAppender();
 
 
     public SocialProfiles fetchProfiles(String url) {
@@ -18,7 +22,7 @@ public class SocialProfileFetcherProcessor implements ProfileFetcherProcessor<So
             return socialProfilesHolder.getSocialProfile();
         }
 
-        return null;
+        return socialProfilesProfileAppender.appendProfiles(url);
     }
 
      static ProfileFetcherProcessor getProcessor() {
