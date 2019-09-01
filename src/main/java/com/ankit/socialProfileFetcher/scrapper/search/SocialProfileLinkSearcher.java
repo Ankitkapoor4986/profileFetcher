@@ -24,7 +24,7 @@ public class SocialProfileLinkSearcher implements LinkSearcher {
     private List<String> getSocialSiteLink(List<Element> links) {
        return links.stream()
                 .map(element -> element.attr("href"))
-                .filter(link -> isSocialSiteUrl(link))
+                .filter(this::isSocialSiteUrl)
                 .collect(Collectors.toList());
     }
 
@@ -37,9 +37,9 @@ public class SocialProfileLinkSearcher implements LinkSearcher {
     private void enrichLinks(Elements allElements, List<Element> linkElements) {
 
         allElements.stream().filter(el -> !hasChildNodes(el)).filter(el -> el.is("a[href]"))
-                .forEach(el -> linkElements.add(el));
+                .forEach(linkElements::add);
 
-        allElements.stream().filter(el -> hasChildNodes(el)).forEach(el -> enrichLinks(el.children(), linkElements));
+        allElements.stream().filter(this::hasChildNodes).forEach(el -> enrichLinks(el.children(), linkElements));
 
 
     }

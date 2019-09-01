@@ -1,6 +1,6 @@
 package com.ankit.socialProfileFetcher.scrapper;
 
-import com.ankit.socialProfileFetcher.model.SocialProfiles;
+import com.ankit.socialProfileFetcher.model.SocialProfileBuilder;
 import com.ankit.socialProfileFetcher.model.SocialSites;
 import com.ankit.socialProfileFetcher.model.holder.SocialProfilesHolder;
 import com.ankit.socialProfileFetcher.scrapper.search.LinkSearcher;
@@ -21,14 +21,13 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
 
         Document document = Jsoup.parse(url);
         Elements allElements = document.getAllElements();
-        //jsoup support
+        // jsoup support not used
         // Elements href = document.select("a[href]");
         // Elements linkhref = document.select("link[href]");
         List<String> socialProfileList = linkSearcher.searchLinks(allElements);
         if (socialProfileList.isEmpty()) {
             return new SocialProfilesHolder(false);
         } else {
-
             return buildSocialProfileHolder(socialProfileList);
 
         }
@@ -36,34 +35,28 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
     }
 
     private SocialProfilesHolder buildSocialProfileHolder(List<String> socialProfileLink) {
-        SocialProfiles socialProfiles = new SocialProfiles();
-        fillFBSocialProfile(socialProfileLink, socialProfiles);
-        fillInstaSocialProfile(socialProfileLink, socialProfiles);
-        fillPinTestSocialProfile(socialProfileLink, socialProfiles);
-        return new SocialProfilesHolder(socialProfiles, true);
+        SocialProfileBuilder socialProfilesBuilder = new SocialProfileBuilder();
+        addFbProfile(socialProfileLink, socialProfilesBuilder);
+        addInstaProfile(socialProfileLink, socialProfilesBuilder);
+        addPinTestProfile(socialProfileLink, socialProfilesBuilder);
+        return new SocialProfilesHolder(socialProfilesBuilder.build(), true);
 
 
     }
 
-    private void fillPinTestSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
+    private void addPinTestProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder) {
         Optional<String> pintestProfileOptional = getSocialSiteUrl(socialProfileLink, SocialSites.PINTEST);
-        if (pintestProfileOptional.isPresent()) {
-            socialProfiles.setPinTest(pintestProfileOptional.get());
-        }
+        pintestProfileOptional.ifPresent(socialProfileBuilder::addPinTest);
     }
 
-    private void fillInstaSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
+    private void addInstaProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder) {
         Optional<String> instaProfileOp = getSocialSiteUrl(socialProfileLink, SocialSites.INSTAGRAM);
-        if (instaProfileOp.isPresent()) {
-            socialProfiles.setInstagram(instaProfileOp.get());
-        }
+        instaProfileOp.ifPresent(socialProfileBuilder::addInstagram);
     }
 
-    private void fillFBSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
+    private void addFbProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfiles) {
         Optional<String> fbUrlOptional = getSocialSiteUrl(socialProfileLink, SocialSites.FACEBOOK);
-        if (fbUrlOptional.isPresent()) {
-            socialProfiles.setFacebook(fbUrlOptional.get());
-        }
+        fbUrlOptional.ifPresent(socialProfiles::addFacebook);
     }
 
     private Optional<String> getSocialSiteUrl(List<String> socialProfileLink, SocialSites socialSites) {

@@ -1,15 +1,17 @@
 package com.ankit.socialProfileFetcher.processor;
 
+import com.ankit.socialProfileFetcher.model.SocialProfiles;
 import org.junit.jupiter.api.Test;
 
 class SocialProfileFetcherProcessorTest {
 
-    ProfileFetcherProcessor profileFetcherProcessor = SocialProfileFetcherProcessor.getProcessor();
+    ProfileFetcherProcessor<SocialProfiles> profileFetcherProcessor = SocialProfileFetcherProcessor.getProcessor();
 
     @Test
     public void shouldFetchProfile(){
 
-            profileFetcherProcessor.fetchProfiles("https://www.instagram.com/iamsrk/");
+        SocialProfiles socialProfiles = profileFetcherProcessor.fetchProfiles("https://www.instagram.com/iamsrk/");
+
     }
 
 }
