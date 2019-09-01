@@ -36,16 +36,25 @@ public class SocialProfileLinkSearcher implements LinkSearcher {
     //recussion
     private void enrichLinks(Elements allElements, List<Element> linkElements) {
 
-        for (Element element : allElements) {
-            if (element.childNodeSize() >= 1) {
-                enrichLinks(element.children(),linkElements);
-            } else {
-                if(element.is("a[href]")) {
-                    linkElements.add(element);
-                }
-            }
-        }
+        allElements.stream().filter(el->!hasChildNodes(el)).filter(el->el.is("a[href]"))
+                .forEach(el->linkElements.add(el));
 
+        allElements.stream().filter(el->hasChildNodes(el)).forEach(el->enrichLinks(el.children(),linkElements));
+
+//        for (Element element : allElements) {
+//            if (hasChildNodes(element)) {
+//                enrichLinks(element.children(),linkElements);
+//            } else {
+//                if(element.is("a[href]")) {
+//                    linkElements.add(element);
+//                }
+//            }
+//        }
+
+    }
+
+    private boolean hasChildNodes(Element element) {
+        return element.childNodeSize() >= 1;
     }
 
     public static LinkSearcher getLinkSearcher() {
