@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 class SocialProfileFetcherProcessorTest {
 
-    ProfileFetcherProcessor profileFetcherProcessor = SocialProfileFetcherProcessor.getInstance();
+    ProfileFetcherProcessor profileFetcherProcessor = SocialProfileFetcherProcessor.getProcessor();
 
     @Test
     public void shouldFetchProfile(){

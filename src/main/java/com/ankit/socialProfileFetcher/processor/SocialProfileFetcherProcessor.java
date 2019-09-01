@@ -7,19 +7,21 @@ import com.ankit.socialProfileFetcher.scrapper.SocialProfileScrapper;
 
 public class SocialProfileFetcherProcessor implements ProfileFetcherProcessor<SocialProfiles> {
 
-    private static Scrapper<SocialProfilesHolder> scrapper = SocialProfileScrapper.getInstance();
+    private static Scrapper<SocialProfilesHolder> scrapper = SocialProfileScrapper.getScrapper();
     private static ProfileFetcherProcessor<SocialProfiles> processor = new SocialProfileFetcherProcessor();
 
 
     public SocialProfiles fetchProfiles(String url) {
 
         SocialProfilesHolder socialProfilesHolder = scrapper.scrapeUrl(url);
-        socialProfilesHolder.isValueFound();
+        if(socialProfilesHolder.isValueFound()){
+            return socialProfilesHolder.getSocialProfile();
+        }
 
         return null;
     }
 
-    public static ProfileFetcherProcessor getInstance() {
+     static ProfileFetcherProcessor getProcessor() {
         return processor;
 
     }

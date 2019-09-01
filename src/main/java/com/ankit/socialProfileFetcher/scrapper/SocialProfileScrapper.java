@@ -24,22 +24,24 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
         //jsoup support
         // Elements href = document.select("a[href]");
         // Elements linkhref = document.select("link[href]");
-        List<String> socialProfileLink = linkSearcher.searchLinks(allElements);
-        if (socialProfileLink.isEmpty()) {
+        List<String> socialProfileList = linkSearcher.searchLinks(allElements);
+        if (socialProfileList.isEmpty()) {
             return new SocialProfilesHolder(false);
         } else {
-            SocialProfilesHolder socialProfilesHolder = new SocialProfilesHolder(true);
-            fillSocialProfileHolder(socialProfilesHolder, socialProfileLink);
-            return socialProfilesHolder;
+
+            return buildSocialProfileHolder(socialProfileList);
+
         }
 
     }
 
-    private void fillSocialProfileHolder(SocialProfilesHolder socialProfilesHolder, List<String> socialProfileLink) {
+    private SocialProfilesHolder buildSocialProfileHolder(List<String> socialProfileLink) {
         SocialProfiles socialProfiles = new SocialProfiles();
         fillFBSocialProfile(socialProfileLink, socialProfiles);
         fillInstaSocialProfile(socialProfileLink, socialProfiles);
         fillPinTestSocialProfile(socialProfileLink, socialProfiles);
+        return new SocialProfilesHolder(socialProfiles, true);
+
 
     }
 
@@ -70,7 +72,7 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
     }
 
 
-    public static Scrapper<SocialProfilesHolder> getInstance() {
+    public static Scrapper<SocialProfilesHolder> getScrapper() {
         return scrapper;
     }
 
