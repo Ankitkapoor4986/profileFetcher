@@ -1,12 +1,15 @@
 package com.ankit.socialProfileFetcher.model.holder;
 
 import com.ankit.socialProfileFetcher.model.SocialProfiles;
-import com.ankit.socialProfileFetcher.model.holder.Holder;
 
 public class SocialProfilesHolder implements Holder<SocialProfiles> {
 
     private SocialProfiles socialProfiles;
     private boolean valueFound;
+
+    public SocialProfilesHolder(boolean valueFound) {
+        this.valueFound = valueFound;
+    }
 
     public boolean isValueFound() {
         return valueFound;
