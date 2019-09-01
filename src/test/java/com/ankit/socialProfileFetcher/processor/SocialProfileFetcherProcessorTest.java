@@ -13,6 +13,8 @@ class SocialProfileFetcherProcessorTest {
 
         SocialProfiles socialProfiles = profileFetcherProcessor.fetchProfiles("instagram.com/iamsrk");
         Assertions.assertTrue("instagram.com/iamsrk".equals(socialProfiles.getInstagram()));
+        Assertions.assertTrue("facebook.com/iamsrk".equals(socialProfiles.getFacebook()));
+
 
     }
 
