@@ -6,6 +6,12 @@ public class SocialProfiles {
     private String instagram;
     private String pinTest;
 
+    public SocialProfiles(String facebook, String instagram, String pinTest) {
+        this.facebook = facebook;
+        this.instagram = instagram;
+        this.pinTest = pinTest;
+    }
+
     public String getFacebook() {
         return facebook;
     }

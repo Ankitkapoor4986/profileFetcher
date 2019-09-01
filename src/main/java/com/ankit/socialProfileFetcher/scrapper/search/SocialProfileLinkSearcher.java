@@ -1,6 +1,6 @@
 package com.ankit.socialProfileFetcher.scrapper.search;
 
-import com.ankit.socialProfileFetcher.model.SocialSiteUrl;
+import com.ankit.socialProfileFetcher.model.SocialSites;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -30,8 +30,8 @@ public class SocialProfileLinkSearcher implements LinkSearcher {
 
     private boolean isSocialSiteUrl(String link) {
 
-       return Arrays.stream(SocialSiteUrl.values())
-                .anyMatch(socialSiteUrl -> link.contains(socialSiteUrl.getUrl()));
+       return Arrays.stream(SocialSites.values())
+                .anyMatch(socialSites -> link.contains(socialSites.getSiteName()));
     }
     //recussion
     private void enrichLinks(Elements allElements, List<Element> linkElements) {

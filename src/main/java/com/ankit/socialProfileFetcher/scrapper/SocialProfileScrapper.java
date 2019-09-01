@@ -1,7 +1,7 @@
 package com.ankit.socialProfileFetcher.scrapper;
 
 import com.ankit.socialProfileFetcher.model.SocialProfiles;
-import com.ankit.socialProfileFetcher.model.SocialSiteUrl;
+import com.ankit.socialProfileFetcher.model.SocialSites;
 import com.ankit.socialProfileFetcher.model.holder.SocialProfilesHolder;
 import com.ankit.socialProfileFetcher.scrapper.search.LinkSearcher;
 import com.ankit.socialProfileFetcher.scrapper.search.SocialProfileLinkSearcher;
@@ -46,28 +46,28 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
     }
 
     private void fillPinTestSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
-        Optional<String> pintestProfileOptional = getSocialSiteUrl(socialProfileLink, SocialSiteUrl.PINTEST);
+        Optional<String> pintestProfileOptional = getSocialSiteUrl(socialProfileLink, SocialSites.PINTEST);
         if (pintestProfileOptional.isPresent()) {
             socialProfiles.setPinTest(pintestProfileOptional.get());
         }
     }
 
     private void fillInstaSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
-        Optional<String> instaProfileOp = getSocialSiteUrl(socialProfileLink, SocialSiteUrl.INSTAGRAM);
+        Optional<String> instaProfileOp = getSocialSiteUrl(socialProfileLink, SocialSites.INSTAGRAM);
         if (instaProfileOp.isPresent()) {
             socialProfiles.setInstagram(instaProfileOp.get());
         }
     }
 
     private void fillFBSocialProfile(List<String> socialProfileLink, SocialProfiles socialProfiles) {
-        Optional<String> fbUrlOptional = getSocialSiteUrl(socialProfileLink, SocialSiteUrl.FACEBOOK);
+        Optional<String> fbUrlOptional = getSocialSiteUrl(socialProfileLink, SocialSites.FACEBOOK);
         if (fbUrlOptional.isPresent()) {
             socialProfiles.setFacebook(fbUrlOptional.get());
         }
     }
 
-    private Optional<String> getSocialSiteUrl(List<String> socialProfileLink, SocialSiteUrl socialSiteUrl) {
-        return socialProfileLink.stream().filter(link -> socialSiteUrl.getUrl().equals(link))
+    private Optional<String> getSocialSiteUrl(List<String> socialProfileLink, SocialSites socialSites) {
+        return socialProfileLink.stream().filter(link -> socialSites.getSiteName().equals(link))
                 .findFirst();
     }
 
