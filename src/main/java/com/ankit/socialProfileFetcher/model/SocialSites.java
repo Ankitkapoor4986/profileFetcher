@@ -2,8 +2,8 @@ package com.ankit.socialProfileFetcher.model;
 
 public enum SocialSites {
 
-    FACEBOOK("facebook","facebook.com"),INSTAGRAM("instagram","instagram.com"),
-    PINTEST("pintest","pintest.com");
+    FACEBOOK("facebook","www.facebook.com"),INSTAGRAM("instagram","www.instagram.com"),
+    PINTEST("pintest","www.pintest.com");
 
     private final String url;
     private String siteName;

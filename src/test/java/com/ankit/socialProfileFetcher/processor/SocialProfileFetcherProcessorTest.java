@@ -11,9 +11,9 @@ class SocialProfileFetcherProcessorTest {
     @Test
     public void shouldFetchProfile(){
 
-        SocialProfiles socialProfiles = profileFetcherProcessor.fetchProfiles("instagram.com/iamsrk");
-        Assertions.assertTrue("instagram.com/iamsrk".equals(socialProfiles.getInstagram()));
-        Assertions.assertTrue("facebook.com/iamsrk".equals(socialProfiles.getFacebook()));
+        SocialProfiles socialProfiles = profileFetcherProcessor.fetchProfiles("www.instagram.com/iamsrk");
+        Assertions.assertTrue("www.instagram.com/iamsrk".equals(socialProfiles.getInstagram()));
+        Assertions.assertTrue("www.facebook.com/iamsrk".equals(socialProfiles.getFacebook()));
 
 
     }
