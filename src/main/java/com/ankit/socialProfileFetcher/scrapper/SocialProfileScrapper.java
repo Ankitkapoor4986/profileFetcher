@@ -46,7 +46,7 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
 
     private void addProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder, SocialSites socialSites) {
         Optional<String> profileOptional = getSocialSiteUrl(socialProfileLink, socialSites);
-        profileOptional.ifPresent((pintestProfile)-> socialSites.getSocialProfileBuilderConsumer().accept(pintestProfile,socialProfileBuilder));
+        profileOptional.ifPresent((profile)-> socialSites.getSocialProfileBuilderConsumer().accept(profile,socialProfileBuilder));
     }
 
 
