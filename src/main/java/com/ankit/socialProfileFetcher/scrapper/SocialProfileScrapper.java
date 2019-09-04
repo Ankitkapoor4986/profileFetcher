@@ -12,6 +12,8 @@ import org.jsoup.select.Elements;
 import java.util.List;
 import java.util.Optional;
 
+import static com.ankit.socialProfileFetcher.model.SocialSites.PINTEST;
+
 public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
 
     private static Scrapper<SocialProfilesHolder> scrapper = new SocialProfileScrapper();
@@ -36,28 +38,17 @@ public class SocialProfileScrapper implements Scrapper<SocialProfilesHolder> {
 
     private SocialProfilesHolder buildSocialProfileHolder(List<String> socialProfileLink) {
         SocialProfileBuilder socialProfilesBuilder = new SocialProfileBuilder();
-        addFbProfile(socialProfileLink, socialProfilesBuilder);
-        addInstaProfile(socialProfileLink, socialProfilesBuilder);
-        addPinTestProfile(socialProfileLink, socialProfilesBuilder);
+        addProfile(socialProfileLink, socialProfilesBuilder,SocialSites.FACEBOOK);
+        addProfile(socialProfileLink, socialProfilesBuilder,SocialSites.INSTAGRAM);
+        addProfile(socialProfileLink, socialProfilesBuilder,PINTEST);
         return new SocialProfilesHolder(socialProfilesBuilder.build(), true);
-
-
     }
 
-    private void addPinTestProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder) {
-        Optional<String> pintestProfileOptional = getSocialSiteUrl(socialProfileLink, SocialSites.PINTEST);
-        pintestProfileOptional.ifPresent(socialProfileBuilder::addPinTest);
+    private void addProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder, SocialSites socialSites) {
+        Optional<String> profileOptional = getSocialSiteUrl(socialProfileLink, socialSites);
+        profileOptional.ifPresent((pintestProfile)-> socialSites.getSocialProfileBuilderConsumer().accept(pintestProfile,socialProfileBuilder));
     }
 
-    private void addInstaProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfileBuilder) {
-        Optional<String> instaProfileOp = getSocialSiteUrl(socialProfileLink, SocialSites.INSTAGRAM);
-        instaProfileOp.ifPresent(socialProfileBuilder::addInstagram);
-    }
-
-    private void addFbProfile(List<String> socialProfileLink, SocialProfileBuilder socialProfiles) {
-        Optional<String> fbUrlOptional = getSocialSiteUrl(socialProfileLink, SocialSites.FACEBOOK);
-        fbUrlOptional.ifPresent(socialProfiles::addFacebook);
-    }
 
     private Optional<String> getSocialSiteUrl(List<String> socialProfileLink, SocialSites socialSites) {
         return socialProfileLink.stream().filter(link -> socialSites.getSiteName().equals(link))
